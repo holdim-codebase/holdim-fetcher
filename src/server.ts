@@ -14,7 +14,7 @@ fastify.post('/', async (request, reply) => {
     return await reply.status(200).send({})
   } catch (error) {
     logger.error(error)
-    return reply.status(400).send({ message: (typeof error === 'object' && (error as { message?: string } || null)?.message) || 'unknown' })
+    return reply.status(400).send({ message: (typeof error === 'object' && (error as { message?: string } || null)?.message) ?? 'unknown' })
   }
 })
 
