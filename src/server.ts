@@ -1,5 +1,6 @@
 
 import fastifyFacotry from 'fastify'
+import { config } from './config'
 import { logger } from './logging'
 import { queuePrpoposals } from './services/pubsub'
 import { getProposals } from './services/snapshot'
@@ -8,7 +9,9 @@ export const fastify = fastifyFacotry({ logger })
 
 fastify.post('/', async (request, reply) => {
   try {
-    const { from, to } = request.body as { from: number, to: number }
+    /** UNIX timestamp in seconds */
+    const nowInSeconds = Math.floor(Date.now() / 1e3)
+    const { from, to } = { from: nowInSeconds - config.intervalInSeconds, to: nowInSeconds }
     const proposals = await getProposals(from, to)
     await queuePrpoposals(proposals)
     return await reply.status(200).send({})
