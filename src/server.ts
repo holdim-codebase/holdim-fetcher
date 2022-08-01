@@ -11,8 +11,8 @@ fastify.post('/', async (request, reply) => {
   try {
     /** UNIX timestamp in seconds */
     const nowInSeconds = Math.floor(Date.now() / 1e3)
-    const { from, to } = { from: nowInSeconds - config.intervalInSeconds, to: nowInSeconds }
-    const proposals = await getProposals(from, to)
+    const { from, to } = { from: nowInSeconds - config.parameters.intervalInSeconds, to: nowInSeconds }
+    const proposals = await getProposals(from, to, config.services.snapshot.whitelistedSpaces)
     await queuePrpoposals(proposals)
     return await reply.status(200).send({})
   } catch (error) {

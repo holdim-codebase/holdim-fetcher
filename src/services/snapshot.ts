@@ -26,12 +26,12 @@ export interface Proposal {
   }
 }
 
-export const getProposals = async (from: number, to: number): Promise<Proposal[]> => {
-  logger.info({ message: 'Requesting proposals from Snapshot', from, to })
+export const getProposals = async (from: number, to: number, spaceSnapshotIds: string[]): Promise<Proposal[]> => {
+  logger.info({ message: 'Requesting proposals from Snapshot', from, to, spaceSnapshotIds })
   const response = await axios.post(config.services.snapshot.url, {
     query: `
-      query newProposals($from: Int, $to: Int) {
-        proposals(where: {created_gt: $from, created_lt: $to}) {
+      query newProposals($from: Int, $to: Int, $space_in: [String]) {
+        proposals(where: {created_gt: $from, created_lt: $to, space_in: $space_in}) {
           id
           author
           created
@@ -53,10 +53,12 @@ export const getProposals = async (from: number, to: number): Promise<Proposal[]
         }
       }
     `,
-    values: {},
+    variables: {
+      from, to, space_in: spaceSnapshotIds,
+    },
   })
 
-  logger.info({ message: 'Reponse from Snapshot', from, to, response })
+  logger.info({ message: 'Response from Snapshot', from, to, spaceSnapshotIds, response })
 
   return response.data.data.proposals
 }
