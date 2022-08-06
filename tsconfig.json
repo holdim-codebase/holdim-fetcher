@@ -2,7 +2,7 @@
   "ts-node": {
     "files": true
   },
-  "include": ["src/**/*", ".eslintrc.js"],
+  "include": ["./**/*.ts"],
   "compilerOptions": {
     "target": "ES2019",
     "module": "CommonJS",
@@ -12,7 +12,6 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "src",
     "strict": true,
     "moduleResolution": "node",
     "useUnknownInCatchVariables": true,
