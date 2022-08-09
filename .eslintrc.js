@@ -9,7 +9,7 @@ module.exports = {
     'plugin:sonarjs/recommended',
   ],
   parserOptions: {
-    project: ['tsconfig.json'],
+    project: ['tsconfig.eslint.json'],
   },
   rules: {
     // code formatting
