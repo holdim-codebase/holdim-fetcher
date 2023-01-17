@@ -35,6 +35,7 @@ const SyncSignalFrequencyToIntMap: {[key in SyncSignalFrequency]: number} = {
 }
 
 fastify.post('/', async (request, reply) => {
+  console.log('body: ', request.body)
   const nowInSeconds = Math.floor(Date.now() / 1e3)
   /** UNIX timestamps in seconds */
   let { from, to } = { from: nowInSeconds - config.parameters.intervalInSeconds, to: nowInSeconds }
