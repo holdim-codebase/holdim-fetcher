@@ -35,12 +35,17 @@ const SyncSignalFrequencyToIntMap: {[key in SyncSignalFrequency]: number} = {
 }
 
 fastify.post('/', async (request, reply) => {
+  const nowInSeconds = Math.floor(Date.now() / 1e3)
+  /** UNIX timestamps in seconds */
+  let { from, to } = { from: nowInSeconds - config.parameters.intervalInSeconds, to: nowInSeconds }
   try {
-    const data: SyncSignalMessage = JSON.parse(
-      Buffer.from((request.body as any).message.data, 'base64').toString('utf-8')
-    )
-     /** UNIX timestamp in seconds */
-    const { from, to } = { from: Math.floor(Date.now() / 1e3) - (SyncSignalFrequencyToIntMap[data.frequency] * data.every), to: Math.floor(Date.now() / 1e3) }
+    if (request.body) {
+      const data: SyncSignalMessage = JSON.parse(
+        Buffer.from((request.body as any).message.data, 'base64').toString('utf-8')
+      )
+      from = Math.floor(Date.now() / 1e3) - (SyncSignalFrequencyToIntMap[data.frequency] * data.every)
+      to = Math.floor(Date.now() / 1e3)
+    }
     const proposals = await getProposals(from, to, config.services.snapshot.whitelistedSpaces)
     await queueProposals(proposals)
     return await reply.status(200).send({})
