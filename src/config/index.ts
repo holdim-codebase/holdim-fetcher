@@ -26,7 +26,7 @@ export const config = {
         'olympusdao.eth',
         'dydxgov.eth',
         'bitdao.eth',
-        'interfacedao.eth',
+        // 'interfacedao.eth',
         'banklessvault.eth',
         'hop.eth',
       ],
