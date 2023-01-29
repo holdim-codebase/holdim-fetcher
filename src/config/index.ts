@@ -33,7 +33,7 @@ export const config = {
         'shapeshiftdao.eth',
         'gearbox.eth',
         'gitcoindao.eth',
-        'cakevote.eth',
+        // 'cakevote.eth',
         'aavegotchi.eth',
         'gnosis.eth',
         'cow.eth',
